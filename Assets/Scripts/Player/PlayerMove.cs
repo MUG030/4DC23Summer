@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    PlayerHP playerHP;
+
     private Vector2 _startScale;
 
     private Rigidbody2D rb;
@@ -21,6 +23,7 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerHP = GetComponent<PlayerHP>();
         _startScale = transform.localScale;
     }
 
@@ -76,5 +79,16 @@ public class PlayerMove : MonoBehaviour
     {
         Debug.Log("test");
         rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        var target = col.GetComponent<IDamageable>();
+        if (target != null)
+        {
+
+            int DamageNum = target.AddDamage();
+            playerHP.SetLifeGauge2(DamageNum);
+        }
     }
 }
