@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     private float _speedForce = 5.0f;
     private float _jumpForce = 5.0f;
+    float springForce = 1.0f;
 
     [SerializeField] private float _groundCheckDistance = 0.3f;
     private int groundLayer = 1 << 6;
@@ -40,6 +42,11 @@ public class PlayerMove : MonoBehaviour
         {
             transform.localScale = new Vector2(_startScale.x * -1, _startScale.y);
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            Jump();
+        }
     }
 
     private void FixedUpdate()
@@ -54,17 +61,12 @@ public class PlayerMove : MonoBehaviour
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            Jump();
-        }
     }
 
     private bool CheckGround()
     {
-        Vector2 positionLeft = (Vector2)transform.position - Vector2.left * 0.38f - Vector2.up;
-        Vector2 positionRight = (Vector2)transform.position - Vector2.right * 0.38f - Vector2.up;
+        Vector2 positionLeft = (Vector2)transform.position - Vector2.left * 0.35f - Vector2.up;
+        Vector2 positionRight = (Vector2)transform.position - Vector2.right * 0.5f - Vector2.up;
         Vector2 direction = Vector2.down;
         float distance = _groundCheckDistance;
 
@@ -77,18 +79,22 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump()
     {
-        Debug.Log("test");
         rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
         var target = col.GetComponent<IDamageable>();
+        var jumpTarget = col.GetComponent<IGain>();
         if (target != null)
         {
 
             int DamageNum = target.AddDamage();
             playerHP.SetLifeGauge2(DamageNum);
+        } else if (jumpTarget!= null)
+        {
+            springForce = jumpTarget.JumpForce();
+            rb.AddForce(Vector2.up * springForce, ForceMode2D.Impulse);
         }
     }
 }
