@@ -6,18 +6,27 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
 {
     private Rigidbody2D rb;
 
-    private Vector3 defaultLScale;
-    private Vector3 defaultPos;
     private enum WalkDirection
     {
         Left, Right
     };
+    private enum EnemyStatus
+    {
+        Alive, Damaged, Dying, Dead
+    };
     private WalkDirection Direction;
+    private EnemyStatus Status;
 
+    private Vector3 defaultLScale;
+    private Vector3 defaultPos;
+
+    private int health;
     [SerializeField]
     private float walkrange = 20;
     [SerializeField]
     private float velocity = 6;
+
+
 
     private float _diff;
     private Vector2 _movedistance;
@@ -27,6 +36,8 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     {
         defaultLScale = transform.localScale;
         defaultPos = transform.position;
+        health = 1;
+        Status = EnemyStatus.Alive;
     }
 
     // Update is called once per frame
@@ -51,6 +62,33 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
         }
         SetDirection(Direction);
         Move(Direction);
+
+        switch (Status)
+        {
+            case EnemyStatus.Alive:
+                break;
+            case EnemyStatus.Damaged:
+                break;
+            case EnemyStatus.Dying:
+                break;
+            case EnemyStatus.Dead:
+                break;
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject)
+        {
+
+        }
+        //collisionè¡Ç∑
+        //ÉtÉFÅ[ÉhénÇ‹ÇÈ
+        //
+        //
+        //
+        //
     }
     //úpújä÷òA
     #region
@@ -73,10 +111,9 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
         transform.Translate(_movedistance);
     }
     #endregion
-
-        public int AddDamage()
-        {
-            Debug.Log("ìGÇ…êGÇÍÇΩ");
-            return 1;
-        }
+    public int AddDamage()
+    {
+         Debug.Log("ìGÇ…êGÇÍÇΩ");
+         return 1;
+    }
 }
