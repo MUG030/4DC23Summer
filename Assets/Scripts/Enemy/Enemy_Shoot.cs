@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy_Shoot : MonoBehaviour
 {
+    public static readonly GameObject Player;
+    [Space(10)]
     private SpriteRenderer enemySprite;
     [SerializeField]
     private Sprite WaitPose;
@@ -110,8 +112,7 @@ public class Enemy_Shoot : MonoBehaviour
         while (true)
         {
             //Player位置取得
-            //↓かり！！！！！
-            playerTra = GameObject.Find("4dcPlayer").transform;
+            playerTra = Player.transform;
             //角度決定
             _posdiff = playerTra.position - gameObject.transform.position;
             _base = _posdiff.x;
