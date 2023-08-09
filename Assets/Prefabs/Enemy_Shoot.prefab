@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4399224158165334783}
   m_Layer: 0
   m_Name: Enemy_Shoot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,6 +171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e03fea1ad2f22b24bb0f4be9a689a249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WaitPose: {fileID: 21300000, guid: daa6bc0b6a77a884e9235acb880be747, type: 3}
+  ShotPose: {fileID: 21300000, guid: e7611dd66bfde064b9cb63f35f75f64f, type: 3}
   bulletPrefab: {fileID: 4294655196517469505, guid: 78749403ba3b30f4e91d28334e7f99de, type: 3}
   shotvelocity: 2
   shotinterval: 4
+  fadetime: 0.4

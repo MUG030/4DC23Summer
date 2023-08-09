@@ -85,4 +85,11 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
     {
         this.velocity = velocity;
     }
+    public void GetDamage(int damage)
+    {
+        health -= damage;
+        health++;
+        Status = EnemyStatus.Damaged;
+    }
+
 }
