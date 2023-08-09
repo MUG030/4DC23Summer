@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Enemy_Shoot : MonoBehaviour
 {
+    public static GameObject Player;
+    [SerializeField]
+    private GameObject player;
+    [Space(10)]
     private SpriteRenderer enemySprite;
     [SerializeField]
     private Sprite WaitPose;
@@ -42,6 +46,7 @@ public class Enemy_Shoot : MonoBehaviour
         health = 1;
         Status = EnemyStatus.Alive;
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
+        Player = player;
     }
 
     // Update is called once per frame
@@ -110,8 +115,7 @@ public class Enemy_Shoot : MonoBehaviour
         while (true)
         {
             //Player位置取得
-            //↓かり！！！！！
-            playerTra = GameObject.Find("4dcPlayer").transform;
+            playerTra = Player.transform;
             //角度決定
             _posdiff = playerTra.position - gameObject.transform.position;
             _base = _posdiff.x;
