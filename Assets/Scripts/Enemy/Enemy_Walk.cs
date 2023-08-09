@@ -5,52 +5,109 @@ using UnityEngine;
 public class Enemy_Walk : MonoBehaviour, IDamageable
 {
     private Rigidbody2D rb;
+    private SpriteRenderer enemySprite;
 
-    private Vector3 defaultLScale;
-    private Vector3 defaultPos;
+
     private enum WalkDirection
     {
         Left, Right
     };
+    private enum EnemyStatus
+    {
+        Alive, Damaged, Dying, Dead
+    };
     private WalkDirection Direction;
+    private EnemyStatus Status;
 
+    private Vector3 defaultLScale;
+    private Vector3 defaultPos;
+
+    private int health;
     [SerializeField]
-    private float walkrange = 20;
+    private float walkrange = 10;
     [SerializeField]
-    private float velocity = 6;
+    private float velocity = 4;
+    [SerializeField]
+    private float fadetime = 1.2f;
+    private float _timecount;
+    private float adjustedtime;
+
 
     private float _diff;
     private Vector2 _movedistance;
+    private Color _color;
 
     // Start is called before the first frame update
     void Start()
     {
         defaultLScale = transform.localScale;
         defaultPos = transform.position;
+        health = 1;
+        Status = EnemyStatus.Alive;
+        enemySprite = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         //ポップ場所から左にwalkrangeまでの範囲で徘徊する
+        #region
         _diff = (defaultPos.x - transform.position.x);
-        Debug.Log(_diff);
         switch (_diff)
         {
             case float f when 0 >= f:
                 Direction = WalkDirection.Left;
-                Debug.Log("Left");
                 break;
             case float f when f > walkrange:
                 Direction = WalkDirection.Right;
-                Debug.Log("Right");
                 break;
             default:
-                Debug.Log("mid");
                 break;
         }
         SetDirection(Direction);
         Move(Direction);
+        #endregion
+
+        //被ダメ、フェード、消滅
+        switch (Status)
+        {
+            case EnemyStatus.Alive:
+                break;
+            case EnemyStatus.Damaged:
+                health -= 1;
+                if (health <= 0)
+                {
+                    //コライダー消す
+                    Destroy(gameObject.GetComponent<Rigidbody2D>());
+                    Destroy(gameObject.GetComponent<Collider2D>());
+                    Status = EnemyStatus.Dying;
+                    _timecount = 0;
+                }
+                else
+                    Status = EnemyStatus.Alive;
+                break;
+            case EnemyStatus.Dying:
+                //フェードの分割数 = フェード時間/fixの間隔
+                //1回あたりにフェード度 = 1s / 分割数
+                _color = enemySprite.color;
+                _color.a -= Time.fixedDeltaTime / fadetime;
+                enemySprite.color = _color;
+                if (enemySprite.color.a <= 0)
+                    Status = EnemyStatus.Dead;
+                break;
+            case EnemyStatus.Dead:
+                Destroy(gameObject);
+                break;
+        }
+
+    }
+    //タグ名「PlayerWeapon」のオブジェクトと接触したらダメージをうける
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
     }
     //徘徊関連
     #region
@@ -73,10 +130,10 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
         transform.Translate(_movedistance);
     }
     #endregion
+    public int AddDamage()
+    {
+         Debug.Log("敵に触れた");
+         return 1;
+    }
 
-        public int AddDamage()
-        {
-            Debug.Log("敵に触れた");
-            return 1;
-        }
 }
