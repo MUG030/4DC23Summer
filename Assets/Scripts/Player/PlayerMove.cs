@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
     private bool isGrounded;
 
     private float _speedForce = 5.0f;
-    private float _jumpForce = 5.0f;
+    private float _jumpForce = 10.0f;
 
     [SerializeField] private float _groundCheckDistance = 0.3f;
     private int groundLayer = 1 << 6;
@@ -77,7 +77,6 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump()
     {
-        Debug.Log("test");
         rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 
