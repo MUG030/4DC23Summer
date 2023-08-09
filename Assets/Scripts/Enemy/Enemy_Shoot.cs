@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Enemy_Shoot : MonoBehaviour
 {
-    public static readonly GameObject Player;
+    public static GameObject Player;
+    [SerializeField]
+    private GameObject player;
     [Space(10)]
     private SpriteRenderer enemySprite;
     [SerializeField]
@@ -44,6 +46,7 @@ public class Enemy_Shoot : MonoBehaviour
         health = 1;
         Status = EnemyStatus.Alive;
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
+        Player = player;
     }
 
     // Update is called once per frame
