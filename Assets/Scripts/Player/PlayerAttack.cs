@@ -9,32 +9,13 @@ public class PlayerAttack : MonoBehaviour
     public byte StopFlames;
     private bool Attacking = false;
 
-    void Start()
-    {   
-    }
-
     void Update()
     {
-        /*
-        if(Input.GetAxis("Horizontal") != 0.0f)
-        {
-            if (Input.GetAxis("Horizontal") > 0.0f)
-            {
-                _direction = 1;
-            }
-            else
-            {
-                _direction = -1;
-            }
-        }*/
-
-            Debug.Log(_direction);
-
         Transform tf = this.transform;
 
         if (StopFlames == 0 && Input.GetKeyDown(KeyCode.W))
         {
-            tf.localPosition = new Vector2(1,0.5f);  
+            tf.localPosition = new Vector2(1.2f,0.5f);  
             Attacking = true;
             StopFlames = 40;
         }
@@ -55,8 +36,5 @@ public class PlayerAttack : MonoBehaviour
             tf.localPosition = Vector2.zero;
             Attacking = false;
         }
-
     }
-
-
 }
