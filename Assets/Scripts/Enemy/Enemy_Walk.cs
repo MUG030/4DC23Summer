@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Enemy_Walk : MonoBehaviour, IDamageable
 {
-    private Rigidbody2D rb;
     private SpriteRenderer enemySprite;
 
 
@@ -29,8 +28,6 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     private float velocity = 4;
     [SerializeField]
     private float fadetime = 1.2f;
-    private float _timecount;
-    private float adjustedtime;
 
 
     private float _diff;
@@ -81,7 +78,6 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
                     Destroy(gameObject.GetComponent<Rigidbody2D>());
                     Destroy(gameObject.GetComponent<Collider2D>());
                     Status = EnemyStatus.Dying;
-                    _timecount = 0;
                 }
                 else
                     Status = EnemyStatus.Alive;
