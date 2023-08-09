@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     private float _speedForce = 5.0f;
     private float _jumpForce = 10.0f;
+    float springForce = 1.0f;
 
     [SerializeField] private float _groundCheckDistance = 0.3f;
     private int groundLayer = 1 << 6;
@@ -83,11 +85,16 @@ public class PlayerMove : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
         var target = col.GetComponent<IDamageable>();
+        var jumpTarget = col.GetComponent<IGain>();
         if (target != null)
         {
 
             int DamageNum = target.AddDamage();
             playerHP.SetLifeGauge2(DamageNum);
+        } else if (jumpTarget!= null)
+        {
+            springForce = jumpTarget.JumpForce();
+            rb.AddForce(Vector2.up * springForce, ForceMode2D.Impulse);
         }
     }
 }

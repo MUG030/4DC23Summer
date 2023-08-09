@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spring : MonoBehaviour
+public class Spring : MonoBehaviour, IGain
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float _spForce = 15.0f;
+    public float JumpForce()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return _spForce;
     }
 }
