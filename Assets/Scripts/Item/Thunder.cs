@@ -13,6 +13,7 @@ public class Thunder : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.P))
             {
+                Debug.Log(pull);
                 pull += 1;
             }
             else
@@ -24,10 +25,9 @@ public class Thunder : MonoBehaviour
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log(pull);
         isPlayer = true;
     }
-    public void OnColliderExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
         isPlayer = false;
     }
