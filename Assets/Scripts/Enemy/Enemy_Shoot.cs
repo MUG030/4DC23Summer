@@ -106,7 +106,7 @@ public class Enemy_Shoot : MonoBehaviour
         {
             //Player位置取得
             //↓かり！！！！！
-            playerTra = GameObject.Find("Player").transform;
+            playerTra = GameObject.Find("4dcPlayer").transform;
             //角度決定
             _posdiff = playerTra.position - gameObject.transform.position;
             _base = _posdiff.x;
