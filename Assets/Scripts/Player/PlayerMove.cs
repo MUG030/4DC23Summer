@@ -13,7 +13,7 @@ public class PlayerMove : MonoBehaviour
     private bool isGrounded;
 
     private float _speedForce = 5.0f;
-    private float _jumpForce = 10.0f;
+    private float _jumpForce = 5.0f;
     float springForce = 1.0f;
 
     [SerializeField] private float _groundCheckDistance = 0.3f;
@@ -65,8 +65,8 @@ public class PlayerMove : MonoBehaviour
 
     private bool CheckGround()
     {
-        Vector2 positionLeft = (Vector2)transform.position - Vector2.left * 0.38f - Vector2.up;
-        Vector2 positionRight = (Vector2)transform.position - Vector2.right * 0.38f - Vector2.up;
+        Vector2 positionLeft = (Vector2)transform.position - Vector2.left * 0.35f - Vector2.up;
+        Vector2 positionRight = (Vector2)transform.position - Vector2.right * 0.5f - Vector2.up;
         Vector2 direction = Vector2.down;
         float distance = _groundCheckDistance;
 
