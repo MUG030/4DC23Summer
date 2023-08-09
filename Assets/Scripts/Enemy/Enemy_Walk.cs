@@ -25,7 +25,7 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     [SerializeField]
     private float walkrange = 10;
     [SerializeField]
-    private float velocity = 6;
+    private float velocity = 4;
     [SerializeField]
     private float fadetime = 1.2f;
     private float _timecount;
@@ -42,6 +42,7 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
         defaultPos = transform.position;
         health = 1;
         Status = EnemyStatus.Alive;
+        enemyColor = gameObject.GetComponent<SpriteRenderer>().color;
     }
 
     // Update is called once per frame
@@ -65,6 +66,7 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
         Move(Direction);
         #endregion
 
+        //被ダメ、フェード、消滅
         switch (Status)
         {
             case EnemyStatus.Alive:
@@ -76,16 +78,20 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
                 {
                     Debug.Log("h0");
                     //コライダー消す
+                    Destroy(gameObject.GetComponent<Rigidbody2D>());
                     Destroy(gameObject.GetComponent<Collider2D>());
                     Status = EnemyStatus.Dying;
                     _timecount = 0;
                 }
+                else
+                    Status = EnemyStatus.Alive;
                 break;
             case EnemyStatus.Dying:
                 //フェードの分割数 = フェード時間/fixの間隔
                 //1回あたりにフェード度 = 1s / 分割数
                 //enemyColor.a -= Time.fixedDeltaTime / fadetime;
                 Debug.Log("dying");
+                //参考：http://marupeke296.com/TIPS_No19_interpolation.html
                 _timecount += Time.fixedDeltaTime;
                 adjustedtime = _timecount / fadetime;
                 enemyColor.a = (adjustedtime - 1)*(adjustedtime - 1)*(2*adjustedtime + 1);
