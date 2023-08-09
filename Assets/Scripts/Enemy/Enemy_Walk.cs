@@ -5,6 +5,8 @@ using UnityEngine;
 public class Enemy_Walk : MonoBehaviour, IDamageable
 {
     private Rigidbody2D rb;
+    private SpriteRenderer enemySprite;
+
 
     private enum WalkDirection
     {
@@ -19,7 +21,6 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
 
     private Vector3 defaultLScale;
     private Vector3 defaultPos;
-    private Color enemyColor;
 
     private int health;
     [SerializeField]
@@ -34,6 +35,7 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
 
     private float _diff;
     private Vector2 _movedistance;
+    private Color _color;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +44,7 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
         defaultPos = transform.position;
         health = 1;
         Status = EnemyStatus.Alive;
-        enemyColor = gameObject.GetComponent<SpriteRenderer>().color;
+        enemySprite = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -73,10 +75,8 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
                 break;
             case EnemyStatus.Damaged:
                 health -= 1;
-                Debug.Log("dam");
                 if (health <= 0)
                 {
-                    Debug.Log("h0");
                     //コライダー消す
                     Destroy(gameObject.GetComponent<Rigidbody2D>());
                     Destroy(gameObject.GetComponent<Collider2D>());
@@ -89,13 +89,10 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
             case EnemyStatus.Dying:
                 //フェードの分割数 = フェード時間/fixの間隔
                 //1回あたりにフェード度 = 1s / 分割数
-                //enemyColor.a -= Time.fixedDeltaTime / fadetime;
-                Debug.Log("dying");
-                //参考：http://marupeke296.com/TIPS_No19_interpolation.html
-                _timecount += Time.fixedDeltaTime;
-                adjustedtime = _timecount / fadetime;
-                enemyColor.a = (adjustedtime - 1)*(adjustedtime - 1)*(2*adjustedtime + 1);
-                if (enemyColor.a >= 1)
+                _color = enemySprite.color;
+                _color.a -= Time.fixedDeltaTime / fadetime;
+                enemySprite.color = _color;
+                if (enemySprite.color.a <= 0)
                     Status = EnemyStatus.Dead;
                 break;
             case EnemyStatus.Dead:
