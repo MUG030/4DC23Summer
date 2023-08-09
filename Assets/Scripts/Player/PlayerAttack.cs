@@ -9,14 +9,8 @@ public class PlayerAttack : MonoBehaviour
     public byte StopFlames;
     private bool Attacking = false;
 
-    void Start()
-    {   
-    }
-
     void Update()
     {
-            Debug.Log(_direction);
-
         Transform tf = this.transform;
 
         if (StopFlames == 0 && Input.GetKeyDown(KeyCode.W))
