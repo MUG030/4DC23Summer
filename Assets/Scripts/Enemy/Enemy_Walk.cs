@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Walk : MonoBehaviour
+public class Enemy_Walk : MonoBehaviour, IDamageable
 {
     private Rigidbody2D rb;
 
@@ -74,4 +74,9 @@ public class Enemy_Walk : MonoBehaviour
     }
     #endregion
 
+        public int AddDamage()
+        {
+            Debug.Log("ìGÇ…êGÇÍÇΩ");
+            return 1;
+        }
 }
