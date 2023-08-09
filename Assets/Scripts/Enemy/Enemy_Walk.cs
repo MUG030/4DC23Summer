@@ -19,13 +19,17 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
 
     private Vector3 defaultLScale;
     private Vector3 defaultPos;
+    private Color enemyColor;
 
     private int health;
     [SerializeField]
-    private float walkrange = 20;
+    private float walkrange = 10;
     [SerializeField]
     private float velocity = 6;
-
+    [SerializeField]
+    private float fadetime = 1.2f;
+    private float _timecount;
+    private float adjustedtime;
 
 
     private float _diff;
@@ -44,51 +48,63 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     void FixedUpdate()
     {
         //ポップ場所から左にwalkrangeまでの範囲で徘徊する
+        #region
         _diff = (defaultPos.x - transform.position.x);
-        Debug.Log(_diff);
         switch (_diff)
         {
             case float f when 0 >= f:
                 Direction = WalkDirection.Left;
-                Debug.Log("Left");
                 break;
             case float f when f > walkrange:
                 Direction = WalkDirection.Right;
-                Debug.Log("Right");
                 break;
             default:
-                Debug.Log("mid");
                 break;
         }
         SetDirection(Direction);
         Move(Direction);
+        #endregion
 
         switch (Status)
         {
             case EnemyStatus.Alive:
                 break;
             case EnemyStatus.Damaged:
+                health -= 1;
+                Debug.Log("dam");
+                if (health <= 0)
+                {
+                    Debug.Log("h0");
+                    //コライダー消す
+                    Destroy(gameObject.GetComponent<Collider2D>());
+                    Status = EnemyStatus.Dying;
+                    _timecount = 0;
+                }
                 break;
             case EnemyStatus.Dying:
+                //フェードの分割数 = フェード時間/fixの間隔
+                //1回あたりにフェード度 = 1s / 分割数
+                //enemyColor.a -= Time.fixedDeltaTime / fadetime;
+                Debug.Log("dying");
+                _timecount += Time.fixedDeltaTime;
+                adjustedtime = _timecount / fadetime;
+                enemyColor.a = (adjustedtime - 1)*(adjustedtime - 1)*(2*adjustedtime + 1);
+                if (enemyColor.a >= 1)
+                    Status = EnemyStatus.Dead;
                 break;
             case EnemyStatus.Dead:
+                Destroy(gameObject);
                 break;
         }
 
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    //タグ名「PlayerWeapon」のオブジェクトと接触したらダメージをうける
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject)
+        if(collision.collider.gameObject.tag == "PlayerWeapon")
         {
-
+            Status = EnemyStatus.Damaged;
         }
-        //collision消す
-        //フェード始まる
-        //
-        //
-        //
-        //
     }
     //徘徊関連
     #region
@@ -116,4 +132,5 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
          Debug.Log("敵に触れた");
          return 1;
     }
+
 }
