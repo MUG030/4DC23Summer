@@ -52,7 +52,8 @@ public class Enemy_Walk : MonoBehaviour
         SetDirection(Direction);
         Move(Direction);
     }
-
+    //œpœjŠÖ˜A
+    #region
     private void SetDirection(WalkDirection direction)
     {
         transform.localScale = direction switch
@@ -71,4 +72,6 @@ public class Enemy_Walk : MonoBehaviour
 
         transform.Translate(_movedistance);
     }
+    #endregion
+
 }
