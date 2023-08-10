@@ -97,7 +97,6 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
         gameObject.GetComponent<SpriteRenderer>().color = Color.clear;
         audioSource.PlayOneShot(hitSound);
         yield return new WaitForSeconds(soundLength);
-        Debug.Log("delayed");
         Destroy(gameObject);
     }
 }
