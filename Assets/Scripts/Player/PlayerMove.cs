@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerMove : MonoBehaviour
     private bool isShiftPressed = false;
     private bool isSprinting = false;
     private bool isDamage = false;
+    private bool isAttack = false;
 
     [SerializeField] private float _speedForce = 5.0f;
     [SerializeField] private float _jumpForce = 5.0f;
@@ -24,12 +26,12 @@ public class PlayerMove : MonoBehaviour
 
     private float _horizontalInput;
 
-    private AudioSource audioSource;
+    /*private AudioSource audioSource;
     [SerializeField, Space(10)]
     private AudioClip jumpSound;
     [SerializeField]
     private AudioClip walkSound;
-    [SerializeField]
+    [SerializeField]*/
 
     // Start is called before the first frame update
     void Start()
@@ -57,12 +59,16 @@ public class PlayerMove : MonoBehaviour
 
             return;
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            isAttack = true;
+            Invoke("AttackEnd", 26/60f);
+        }
 
-        animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
+            animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
         animator.SetBool("isGround", isGrounded);
         animator.SetBool("IsJump", true);
 
-        Debug.Log(rb.velocity.y);
         if (rb.velocity.y > 0.4f)
         {
             animator.SetBool("IsJump", true);
@@ -144,13 +150,6 @@ public class PlayerMove : MonoBehaviour
     private void Jump()
     {
         rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-        StartCoroutine("JumpSound");
-    }
-
-    private IEnumerator JumpSound()
-    {
-        audioSource.PlayOneShot(jumpSound);
-        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -160,6 +159,9 @@ public class PlayerMove : MonoBehaviour
         if (target != null)
         {
             if (isDamage) return;
+            if (isAttack) return;
+
+            isDamage = true;
 
             int DamageNum = target.AddDamage();
             playerHP.SetLifeGauge2(DamageNum);
@@ -182,5 +184,9 @@ public class PlayerMove : MonoBehaviour
     {
         isDamage = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
+    }
+    private void AttackEnd()
+    {
+        isAttack = false;
     }
 }
