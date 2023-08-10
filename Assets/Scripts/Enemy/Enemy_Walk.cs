@@ -23,11 +23,11 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     private Vector3 defaultPos;
 
     private int health;
-    [SerializeField]
+    [SerializeField, Space(10)]
     private float walkrange = 10;
     [SerializeField]
     private float velocity = 4;
-    [SerializeField]
+    [SerializeField, Space(10)]
     private float fadetime = 1.2f;
 
 
