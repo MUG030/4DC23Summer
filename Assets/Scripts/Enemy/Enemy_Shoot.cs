@@ -19,6 +19,7 @@ public class Enemy_Shoot : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField]
     private AudioClip shotSound;
+    private AudioClip dyingSound;
     private GameObject shotMuzzle;
     private GameObject bullet;
     private Transform playerTra;
@@ -96,6 +97,12 @@ public class Enemy_Shoot : MonoBehaviour
         }
     }
 
+    private IEnumerator Hit()
+    {
+        audioSource.PlayOneShot(dyingSound);
+        yield return new WaitForSeconds(3);
+    }
+
     private void OnBecameVisible()
     {
         //Ž©‹@‘_‚¢ŠJŽn
@@ -111,6 +118,13 @@ public class Enemy_Shoot : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerWeapon")
         {
             Status = EnemyStatus.Damaged;
         }

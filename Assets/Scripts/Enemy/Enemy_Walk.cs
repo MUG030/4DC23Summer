@@ -102,7 +102,14 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     //タグ名「PlayerWeapon」のオブジェクトと接触したらダメージをうける
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.gameObject.tag == "PlayerWeapon")
+        if (collision.collider.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerWeapon")
         {
             Status = EnemyStatus.Damaged;
         }
