@@ -40,15 +40,14 @@ public class Thunder : MonoBehaviour
 
     }
 
-    public void OnTriggerStay2D(Collision2D collision)
+    void OnTriggerEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.tag == "Player")
         {
             Debug.Log("test");
             isPlayer = true;
         }
     }
-    public void OnTriggerExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collision2D collision)
     {
         if (collision.collider.gameObject.tag == "Player")
         { 
