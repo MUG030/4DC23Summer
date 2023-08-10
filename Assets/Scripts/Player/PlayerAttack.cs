@@ -4,57 +4,56 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-
     public sbyte _direction;
-    private byte StopFlames;
+    private byte Frame;
     private bool Attacking = false;
-    private SpriteRenderer image;
-    private GameObject sord;
-    private Animator anim;
-    public Sprite sprite1, sprite2;
+    private SpriteRenderer Image;
+    private GameObject Sord;
+    private Animator Anim;
+    public Sprite Sprite1, Sprite2;
 
     void Start()
     {
-        sord = transform.GetChild(0).gameObject;
-        image = gameObject.GetComponent<SpriteRenderer>();
-        anim = gameObject.GetComponent<Animator>();
+        Sord = transform.GetChild(0).gameObject;
+        Image = gameObject.GetComponent<SpriteRenderer>();
+        Anim = gameObject.GetComponent<Animator>();
     }
     void Update()
     {
 
-        if (StopFlames == 0 && Input.GetKeyDown(KeyCode.W))
+        if (Frame == 0 && Input.GetKeyDown(KeyCode.W))
         {
-            anim.enabled = false;
+            Anim.enabled = false;
             
-            image.sprite = sprite1;
-            sord.SetActive(true);
-            sord.transform.localPosition = new Vector2(-1.2f,0.5f);  
+            Image.sprite = Sprite1;
+            Sord.SetActive(true);
+            Sord.transform.localPosition = new Vector2(-1.2f,0.5f);  
             Attacking = true;
-            StopFlames = 60;
+            Frame = 60;
         }
 
         if(Attacking)
         {
-            Attack(sord);
+            Attack(Sord);
         }
     }
 
     void Attack(GameObject s)
     {
         s.transform.Translate(0,-0.025f,0);
-        StopFlames -= 1;
+        Frame -= 1;
 
-        if(StopFlames == 45)
+        if(Frame == 18)
         {
-            image.sprite = sprite2;
+            Image.sprite = Sprite2;
         }
 
-        if(StopFlames == 0)
+        if(Frame == 0)
         {
             s.transform.localPosition = Vector2.zero;
             Attacking = false;
-            sord.SetActive(false);
-            anim.enabled = true;
+            Sord.SetActive(false);
+            Anim.enabled = true;
         }
     }
 }

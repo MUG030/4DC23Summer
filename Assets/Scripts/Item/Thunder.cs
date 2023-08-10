@@ -4,35 +4,48 @@ using UnityEngine;
 
 public class Thunder : MonoBehaviour
 {
-    public bool isPlayer = false;
-    private byte pull = 0;
-    private bool move = false;
-    private int flame = 0;
+    private bool isPlayer = false;
+    private bool Move = false;
+    private byte Pull = 0;
+    private byte Frame = 0;
+    private Animator Anim;
+    public SpriteRenderer Image;
+    public Sprite Sprite1, Sprite2;
+
+    void Start()
+    {
+        Anim = Image.GetComponent<Animator>();
+    }
 
     void Update()
     {
         if (isPlayer)
         {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Anim.enabled = false;
+                Image.sprite = Sprite1;
+                Debug.Log("test2");
+                Pull = 0;
+            }
+
             if (Input.GetKey(KeyCode.P))
             {
-                Debug.Log(pull);
-                pull += 1;
+               Pull += 1;
             }
-            else
+
+            if (Pull > 180)
             {
-                Debug.Log(pull);
-                pull = 0;
+                Debug.Log("pulled");
+                Move = true;
+                Pull = 0;
+                Frame = 240;
             }
         }
 
-        if(pull > 200)
+        if(Move)
         {
-            move = true;
-        }
-
-        if(move)
-        {
-           if(pull < 10)
+           if(Pull < 10)
             {
 
             }
@@ -40,16 +53,16 @@ public class Thunder : MonoBehaviour
 
     }
 
-    void OnTriggerEnter2D(Collision2D collision)
+    void OnTriggerStay2D(Collider2D col)
     {
+        if (col.gameObject.tag == "Player")
         {
-            Debug.Log("test");
             isPlayer = true;
         }
     }
-    void OnTriggerExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collider2D col)
     {
-        if (collision.collider.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player")
         { 
             isPlayer = false;
         }
