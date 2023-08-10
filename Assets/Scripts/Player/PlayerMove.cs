@@ -12,6 +12,8 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool isShiftPressed = false;
+    private bool isSprinting = false;
+    private bool isDamage = false;
 
     [SerializeField] private float _speedForce = 5.0f;
     [SerializeField] private float _jumpForce = 5.0f;
@@ -41,6 +43,21 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDamage)
+        {
+            float val = Mathf.Sin(Time.time * 50);
+            if (val > 0)
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            }
+
+            return;
+        }
+
         animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
         animator.SetBool("isGround", isGrounded);
         animator.SetBool("IsJump", true);
@@ -142,13 +159,28 @@ public class PlayerMove : MonoBehaviour
         var jumpTarget = col.GetComponent<IGain>();
         if (target != null)
         {
+            if (isDamage) return;
 
             int DamageNum = target.AddDamage();
             playerHP.SetLifeGauge2(DamageNum);
+
+            rb.velocity = new Vector2(0, 0);
+            Vector2 hitDirect = (col.transform.position - transform.position).normalized;
+            if (transform.localScale.x > 0)
+            {
+                hitDirect.x *= -1;
+            }
+
+            Invoke("DamageEnd", 0.5f);
         } else if (jumpTarget!= null)
         {
             springForce = jumpTarget.JumpForce();
             rb.AddForce(Vector2.up * springForce, ForceMode2D.Impulse);
         }
+    }
+    private void DamageEnd()
+    {
+        isDamage = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 }
