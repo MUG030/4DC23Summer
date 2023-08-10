@@ -8,12 +8,12 @@ public class PlayerMove : MonoBehaviour
     PlayerHP playerHP;
 
     private Vector2 _startScale;
-
+    Animator animator;
     private Rigidbody2D rb;
     private bool isGrounded;
 
-    private float _speedForce = 5.0f;
-    private float _jumpForce = 5.0f;
+    [SerializeField] private float _speedForce = 5.0f;
+    [SerializeField] private float _jumpForce = 5.0f;
     float springForce = 1.0f;
 
     [SerializeField] private float _groundCheckDistance = 0.3f;
@@ -26,6 +26,7 @@ public class PlayerMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerHP = GetComponent<PlayerHP>();
+        animator = GetComponent<Animator>();
         _startScale = transform.localScale;
     }
 
@@ -41,6 +42,20 @@ public class PlayerMove : MonoBehaviour
         else if (_horizontalInput < 0.0f)
         {
             transform.localScale = new Vector2(_startScale.x * -1, _startScale.y);
+        }
+
+        animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
+        animator.SetBool("isGround", isGrounded);
+        animator.SetBool("IsJump", true);
+
+        if (rb.velocity.y > 0.4f)
+        {
+            animator.SetBool("IsJump", true);
+        }
+        else
+        {
+            animator.SetBool("IsJump", false);
+            animator.SetBool("IsFall", true);
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
