@@ -19,6 +19,7 @@ public class Enemy_Shoot : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField]
     private AudioClip shotSound;
+    [SerializeField]
     private AudioClip dyingSound;
     private GameObject shotMuzzle;
     private GameObject bullet;
@@ -79,6 +80,7 @@ public class Enemy_Shoot : MonoBehaviour
                     Destroy(gameObject.GetComponent<Rigidbody2D>());
                     Destroy(gameObject.GetComponent<Collider2D>());
                     Status = EnemyStatus.Dying;
+                    StartCoroutine("Hit");
                 } else
                     Status = EnemyStatus.Alive;
                 break;
@@ -100,6 +102,7 @@ public class Enemy_Shoot : MonoBehaviour
     private IEnumerator Hit()
     {
         audioSource.PlayOneShot(dyingSound);
+        Debug.Log(audioSource.isPlaying);
         yield return new WaitForSeconds(3);
     }
 
