@@ -12,6 +12,8 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool isShiftPressed = false;
+    private bool isSprinting = false;
+    private bool isDamage = false;
 
     [SerializeField] private float _speedForce = 5.0f;
     [SerializeField] private float _jumpForce = 5.0f;
@@ -34,6 +36,8 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDamage) return;
+
         animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
         animator.SetBool("isGround", isGrounded);
         animator.SetBool("IsJump", true);
@@ -128,6 +132,7 @@ public class PlayerMove : MonoBehaviour
         var jumpTarget = col.GetComponent<IGain>();
         if (target != null)
         {
+            if (isDamage) return;
 
             int DamageNum = target.AddDamage();
             playerHP.SetLifeGauge2(DamageNum);
