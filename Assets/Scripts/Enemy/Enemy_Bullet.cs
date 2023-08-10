@@ -64,14 +64,6 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
             case EnemyStatus.Dead:
                 StartCoroutine("Hit");
                 Status = EnemyStatus.none;
-                /*
-                audioSource.PlayOneShot(hitSound);
-                SetVelocity(Vector2.zero);
-                gameObject.GetComponent<SpriteRenderer>().color = Color.clear;
-                Invoke("ThePerfectVoid", soundLength);
-                Debug.Log("delayed");
-                Destroy(gameObject);
-                */
                 break;
         }
     }
@@ -88,7 +80,6 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
         Status = EnemyStatus.Damaged;
         return damage;
     }
-    private void ThePerfectVoid() { }
     public void SetVelocity(Vector2 velocity)
     {
         this.velocity = velocity;
