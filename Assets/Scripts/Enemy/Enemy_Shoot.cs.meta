@@ -4,11 +4,12 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - player: {fileID: 4704815654715837625, guid: 0df8871e53da65d48872859e6f786852, type: 3}
+  - Player: {instanceID: 0}
   - WaitPose: {fileID: 21300000, guid: daa6bc0b6a77a884e9235acb880be747, type: 3}
   - ShotPose: {fileID: 21300000, guid: e7611dd66bfde064b9cb63f35f75f64f, type: 3}
   - bulletPrefab: {fileID: 4294655196517469505, guid: 78749403ba3b30f4e91d28334e7f99de, type: 3}
   - shotSound: {fileID: 8300000, guid: 5a41584791ea6a242891977f152ad2df, type: 3}
+  - dyingSound: {fileID: 8300000, guid: b63f48e5cbbfc094b9fd8a22fb784e63, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
