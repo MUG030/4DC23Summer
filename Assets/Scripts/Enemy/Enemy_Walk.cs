@@ -5,7 +5,8 @@ using UnityEngine;
 public class Enemy_Walk : MonoBehaviour, IDamageable
 {
     private SpriteRenderer enemySprite;
-
+    [SerializeField]
+    private Sprite enemyDefeated;
 
     private enum WalkDirection
     {
@@ -78,6 +79,7 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
                     Destroy(gameObject.GetComponent<Rigidbody2D>());
                     Destroy(gameObject.GetComponent<Collider2D>());
                     Status = EnemyStatus.Dying;
+                    enemySprite.sprite = enemyDefeated;
                 }
                 else
                     Status = EnemyStatus.Alive;
@@ -131,5 +133,10 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
          Debug.Log("ìGÇ…êGÇÍÇΩ");
          return 1;
     }
-
+    public void GetDamage(int damage)
+    {
+        health -= damage;
+        health++;
+        Status = EnemyStatus.Damaged;
+    }
 }

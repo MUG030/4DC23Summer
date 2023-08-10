@@ -64,7 +64,7 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
     //名前が「Player」のオブジェクトと接触したらダメージをうける
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "4dcPlayer")
+        if (collision.gameObject == Enemy_Shoot.Player)
         {
             Status = EnemyStatus.Damaged;
         }
@@ -85,4 +85,11 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
     {
         this.velocity = velocity;
     }
+    public void GetDamage(int damage)
+    {
+        health -= damage;
+        health++;
+        Status = EnemyStatus.Damaged;
+    }
+
 }

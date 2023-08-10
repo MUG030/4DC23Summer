@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class Enemy_Shoot : MonoBehaviour
 {
+    public static GameObject Player;
+    [SerializeField]
+    private GameObject player;
+    [Space(10)]
     private SpriteRenderer enemySprite;
+    [SerializeField]
+    private Sprite WaitPose;
+    [SerializeField]
+    private Sprite ShotPose;
 
     [SerializeField]
     private GameObject bulletPrefab;
@@ -18,6 +26,7 @@ public class Enemy_Shoot : MonoBehaviour
     private float shotvelocity = 2.0f;
     [SerializeField]
     private float shotinterval = 4.0f;
+    private float shotposetime = 0.5f;
     private Vector2 shotpower;
 
     private enum EnemyStatus
@@ -37,6 +46,7 @@ public class Enemy_Shoot : MonoBehaviour
         health = 1;
         Status = EnemyStatus.Alive;
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
+        Player = player;
     }
 
     // Update is called once per frame
@@ -105,8 +115,7 @@ public class Enemy_Shoot : MonoBehaviour
         while (true)
         {
             //Player位置取得
-            //↓かり！！！！！
-            playerTra = GameObject.Find("4dcPlayer").transform;
+            playerTra = Player.transform;
             //角度決定
             _posdiff = playerTra.position - gameObject.transform.position;
             _base = _posdiff.x;
@@ -122,8 +131,19 @@ public class Enemy_Shoot : MonoBehaviour
             shotpower *= new Vector2(Mathf.Sign(_posdiff.x), Mathf.Sign(_posdiff.y));
             //射出
             bullet.GetComponent<Enemy_Bullet>().SetVelocity(shotpower);
+
+            enemySprite.sprite = ShotPose;
+            yield return new WaitForSeconds(shotposetime);
+            enemySprite.sprite = WaitPose;
             //インターバル
-            yield return new WaitForSeconds(shotinterval);
+            yield return new WaitForSeconds(shotinterval-shotposetime);
         }
     }
+    public void GetDamage(int damage)
+    {
+        health -= damage;
+        health++;
+        Status = EnemyStatus.Damaged;
+    }
+
 }
