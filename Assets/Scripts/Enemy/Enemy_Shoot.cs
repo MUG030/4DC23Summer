@@ -5,8 +5,9 @@ using UnityEngine;
 public class Enemy_Shoot : MonoBehaviour
 {
     //三日目夜：よく見たら1枚のスクリプトに書く量じゃないwww
+    private static GameObject player;
     [SerializeField]
-    private GameObject player;
+    private GameObject Player;
     private SpriteRenderer enemySprite;
     [SerializeField,Space(10)]
     private Sprite WaitPose;
@@ -29,7 +30,6 @@ public class Enemy_Shoot : MonoBehaviour
     private float shotvelocity = 2.0f;
     [SerializeField]
     private float shotinterval = 4.0f;
-    [SerializeField]
     private float shotposetime = 1.1f;
     private float shotdelay = 0.2f;
     private Vector2 shotpower;
@@ -50,6 +50,8 @@ public class Enemy_Shoot : MonoBehaviour
     {
         health = 1;
         Status = EnemyStatus.Alive;
+        if (player != null)
+            player = Player;
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
         shotMuzzle = gameObject.transform.Find("ShotMuzzle").gameObject;
         audioSource = gameObject.GetComponent<AudioSource>();
