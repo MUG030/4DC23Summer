@@ -6,35 +6,55 @@ public class PlayerAttack : MonoBehaviour
 {
 
     public sbyte _direction;
-    public byte StopFlames;
+    private byte StopFlames;
     private bool Attacking = false;
+    private SpriteRenderer image;
+    private GameObject sord;
+    private Animator anim;
+    public Sprite sprite1, sprite2;
 
+    void Start()
+    {
+        sord = transform.GetChild(0).gameObject;
+        image = gameObject.GetComponent<SpriteRenderer>();
+        anim = gameObject.GetComponent<Animator>();
+    }
     void Update()
     {
-        Transform tf = this.transform;
 
         if (StopFlames == 0 && Input.GetKeyDown(KeyCode.W))
         {
-            tf.localPosition = new Vector2(1.2f,0.5f);  
+            anim.enabled = false;
+            
+            image.sprite = sprite1;
+            sord.SetActive(true);
+            sord.transform.localPosition = new Vector2(-1.2f,0.5f);  
             Attacking = true;
-            StopFlames = 40;
+            StopFlames = 60;
         }
 
         if(Attacking)
         {
-            Attack(tf);
+            Attack(sord);
         }
     }
 
-    void Attack(Transform tf)
+    void Attack(GameObject s)
     {
-        tf.Translate(0,-0.05f,0);
+        s.transform.Translate(0,-0.025f,0);
         StopFlames -= 1;
+
+        if(StopFlames == 45)
+        {
+            image.sprite = sprite2;
+        }
 
         if(StopFlames == 0)
         {
-            tf.localPosition = Vector2.zero;
+            s.transform.localPosition = Vector2.zero;
             Attacking = false;
+            sord.SetActive(false);
+            anim.enabled = true;
         }
     }
 }

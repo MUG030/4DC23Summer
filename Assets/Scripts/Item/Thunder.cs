@@ -6,6 +6,8 @@ public class Thunder : MonoBehaviour
 {
     public bool isPlayer = false;
     private byte pull = 0;
+    private bool move = false;
+    private int flame = 0;
 
     void Update()
     {
@@ -18,17 +20,39 @@ public class Thunder : MonoBehaviour
             }
             else
             {
+                Debug.Log(pull);
                 pull = 0;
             }
         }
+
+        if(pull > 200)
+        {
+            move = true;
+        }
+
+        if(move)
+        {
+           if(pull < 10)
+            {
+
+            }
+        }
+
     }
 
-    public void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerStay2D(Collision2D collision)
     {
-        isPlayer = true;
+        if (collision.collider.gameObject.tag == "Player")
+        {
+            Debug.Log("test");
+            isPlayer = true;
+        }
     }
-    public void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collision2D collision)
     {
-        isPlayer = false;
+        if (collision.collider.gameObject.tag == "Player")
+        { 
+            isPlayer = false;
+        }
     }
 }
