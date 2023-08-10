@@ -11,6 +11,7 @@ public class PlayerMove : MonoBehaviour
     Animator animator;
     private Rigidbody2D rb;
     private bool isGrounded;
+    private bool isShiftPressed = false;
 
     [SerializeField] private float _speedForce = 5.0f;
     [SerializeField] private float _jumpForce = 5.0f;
@@ -33,6 +34,28 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
+        animator.SetBool("isGround", isGrounded);
+        animator.SetBool("IsJump", true);
+
+        Debug.Log(rb.velocity.y);
+        if (rb.velocity.y > 0.4f)
+        {
+            animator.SetBool("IsJump", true);
+        }
+        else
+        {
+            animator.SetBool("IsJump", false);
+            animator.SetBool("IsFall", true);
+        }
+
+        if (isGrounded)
+        {
+            animator.SetBool("IsJump", false);
+            animator.SetBool("IsFall", false);
+            animator.SetBool("IsJumpWing", false);
+            animator.SetBool("IsFallWing", false);
+        }
         _horizontalInput = Input.GetAxis("Horizontal");
 
         if (_horizontalInput > 0.0f)
@@ -44,23 +67,25 @@ public class PlayerMove : MonoBehaviour
             transform.localScale = new Vector2(_startScale.x * -1, _startScale.y);
         }
 
-        animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
-        animator.SetBool("isGround", isGrounded);
-        animator.SetBool("IsJump", true);
-
-        if (rb.velocity.y > 0.4f)
-        {
-            animator.SetBool("IsJump", true);
-        }
-        else
-        {
-            animator.SetBool("IsJump", false);
-            animator.SetBool("IsFall", true);
-        }
-
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
+        }
+
+        isShiftPressed = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        if (isShiftPressed)
+        {
+            if (rb.velocity.y > 0.4f)
+            {
+                animator.SetBool("IsJumpWing", true);
+                animator.SetBool("IsJump", false);
+            }
+            else
+            {
+                animator.SetBool("IsFall", false);
+                animator.SetBool("IsJumpWing", false);
+                animator.SetBool("IsFallWing", true);
+            }
         }
     }
 
