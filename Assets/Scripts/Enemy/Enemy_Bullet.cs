@@ -71,6 +71,20 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
     {
         Destroy(this);
     }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
+    }
 
     public int AddDamage()
     {
