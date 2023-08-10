@@ -21,6 +21,9 @@ public class PlayerMove : MonoBehaviour
 
     private float _horizontalInput;
 
+    // プレイヤーをアニメーションさせるためのコンポーネントを参照
+    [SerializeField] private PlayerAnimation playerAnim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +49,16 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
+        }
+
+        // 入力量に合わせてアニメーションを制御する
+        if (Mathf.Abs(_horizontalInput) > 0f)
+        {
+            playerAnim.SetMove();
+        }
+        else
+        {
+            playerAnim.SetStop();
         }
     }
 

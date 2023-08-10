@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 4160835254052728596}
   - component: {fileID: 7384234263314044409}
   - component: {fileID: 2333739496498021410}
+  - component: {fileID: 8589714531229329934}
   - component: {fileID: 2437329900820844223}
   - component: {fileID: 2511690151860580815}
   - component: {fileID: 1081369322990457922}
+  - component: {fileID: 4923254269446033734}
   m_Layer: 0
   m_Name: 4dcPlayer
   m_TagString: Untagged
@@ -151,6 +153,27 @@ CapsuleCollider2D:
   m_Offset: {x: 0.10479975, y: -0.052399874}
   m_Size: {x: 0.7664075, y: 2.9672003}
   m_Direction: 0
+--- !u!95 &8589714531229329934
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4704815654715837625}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 78dfd5fef3dd4654da961c5162d8ef4c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2437329900820844223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,3 +214,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundCheckDistance: 0.75
+  playerAnim: {fileID: 4923254269446033734}
+--- !u!114 &4923254269446033734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4704815654715837625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4f174e3a0aac7b40850fa0dfeb10611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 8589714531229329934}
