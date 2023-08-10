@@ -50,7 +50,7 @@ public class Enemy_Shoot : MonoBehaviour
     {
         health = 1;
         Status = EnemyStatus.Alive;
-        if (player != null)
+        if (player == null)
             player = Player;
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
         shotMuzzle = gameObject.transform.Find("ShotMuzzle").gameObject;

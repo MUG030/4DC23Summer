@@ -22,6 +22,13 @@ public class PlayerMove : MonoBehaviour
 
     private float _horizontalInput;
 
+    private AudioSource audioSource;
+    [SerializeField, Space(10)]
+    private AudioClip jumpSound;
+    [SerializeField]
+    private AudioClip walkSound;
+    [SerializeField]
+
     // Start is called before the first frame update
     void Start()
     {
@@ -120,6 +127,13 @@ public class PlayerMove : MonoBehaviour
     private void Jump()
     {
         rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        StartCoroutine("JumpSound");
+    }
+
+    private IEnumerator JumpSound()
+    {
+        audioSource.PlayOneShot(jumpSound);
+        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
