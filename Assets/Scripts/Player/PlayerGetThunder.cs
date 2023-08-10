@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class PlayerGetThunder : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool Get = false;
+    public byte Count = 0;
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+        if(Get)
+        {
+            Count += 1;
+            Debug.Log(Count);
+            Get = false;
+        }
     }
 }

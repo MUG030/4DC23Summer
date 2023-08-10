@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class Enemy_Bullet : MonoBehaviour, IDamageable
 {
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip hitSound;
+    private float soundLength = 2.0f;
     private enum EnemyStatus
     {
-        Alive, Damaged, Dying, Dead
+        none, Alive, Damaged, Dying, Dead
     };
     private EnemyStatus Status;
 
     private int health;
     private Vector2 velocity;
+
     // Start is called before the first frame update
     void Start()
     {
         health = 1;
         Status = EnemyStatus.Alive;
-    }
+        audioSource = gameObject.GetComponent<AudioSource>();
+   }
 
     // Update is called once per frame
     void Update()
@@ -56,7 +62,8 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
                 break;
             */
             case EnemyStatus.Dead:
-                Destroy(gameObject);
+                StartCoroutine("Hit");
+                Status = EnemyStatus.none;
                 break;
         }
     }
@@ -64,17 +71,29 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
     {
         Destroy(this);
     }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
+    }
 
     public int AddDamage()
     {
-        Status = EnemyStatus.Damaged;
         Debug.Log("–EŽq‚ÉG‚ê‚½");
         int damage = (health > 0) ? 1 : 0;
         health--;
         Status = EnemyStatus.Damaged;
         return damage;
     }
-
     public void SetVelocity(Vector2 velocity)
     {
         this.velocity = velocity;
@@ -86,4 +105,12 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
         Status = EnemyStatus.Damaged;
     }
 
+    private IEnumerator Hit()
+    {
+        SetVelocity(Vector2.zero);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.clear;
+        audioSource.PlayOneShot(hitSound);
+        yield return new WaitForSeconds(soundLength);
+        Destroy(gameObject);
+    }
 }

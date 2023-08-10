@@ -8,6 +8,10 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     [SerializeField]
     private Sprite enemyDefeated;
 
+    private AudioSource audioSource;
+    [SerializeField, Space(10)]
+    private AudioClip dyingSound;
+
     private enum WalkDirection
     {
         Left, Right
@@ -43,6 +47,7 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
         health = 1;
         Status = EnemyStatus.Alive;
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -80,8 +85,8 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
                     Destroy(gameObject.GetComponent<Collider2D>());
                     Status = EnemyStatus.Dying;
                     enemySprite.sprite = enemyDefeated;
-                }
-                else
+                    StartCoroutine("Hit");
+                } else
                     Status = EnemyStatus.Alive;
                 break;
             case EnemyStatus.Dying:
@@ -99,10 +104,23 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
         }
 
     }
+    private IEnumerator Hit()
+    {
+        audioSource.PlayOneShot(dyingSound);
+        yield return new WaitForSeconds(3);
+    }
+
     //タグ名「PlayerWeapon」のオブジェクトと接触したらダメージをうける
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.gameObject.tag == "PlayerWeapon")
+        if (collision.collider.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerWeapon")
         {
             Status = EnemyStatus.Damaged;
         }

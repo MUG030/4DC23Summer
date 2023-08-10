@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: d9c5b1d0c5c71a040b3f51066074d813
+guid: 4e49f433fd893364ea24bc67a8575e32
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - jumpSound: {fileID: 8300000, guid: 495aeb616f8ce904aa9d66eef8fe204d, type: 3}
-  - walkSound: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

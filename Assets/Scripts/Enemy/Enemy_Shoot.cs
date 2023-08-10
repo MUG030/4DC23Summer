@@ -19,6 +19,8 @@ public class Enemy_Shoot : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField]
     private AudioClip shotSound;
+    [SerializeField]
+    private AudioClip dyingSound;
     private GameObject shotMuzzle;
     private GameObject bullet;
     private Transform playerTra;
@@ -50,7 +52,7 @@ public class Enemy_Shoot : MonoBehaviour
     {
         health = 1;
         Status = EnemyStatus.Alive;
-        if (player != null)
+        if (player == null)
             player = Player;
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
         shotMuzzle = gameObject.transform.Find("ShotMuzzle").gameObject;
@@ -78,6 +80,7 @@ public class Enemy_Shoot : MonoBehaviour
                     Destroy(gameObject.GetComponent<Rigidbody2D>());
                     Destroy(gameObject.GetComponent<Collider2D>());
                     Status = EnemyStatus.Dying;
+                    StartCoroutine("Hit");
                 } else
                     Status = EnemyStatus.Alive;
                 break;
@@ -96,6 +99,13 @@ public class Enemy_Shoot : MonoBehaviour
         }
     }
 
+    private IEnumerator Hit()
+    {
+        audioSource.PlayOneShot(dyingSound);
+        Debug.Log(audioSource.isPlaying);
+        yield return new WaitForSeconds(3);
+    }
+
     private void OnBecameVisible()
     {
         //Ž©‹@‘_‚¢ŠJŽn
@@ -111,6 +121,13 @@ public class Enemy_Shoot : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.gameObject.tag == "PlayerWeapon")
+        {
+            Status = EnemyStatus.Damaged;
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerWeapon")
         {
             Status = EnemyStatus.Damaged;
         }
