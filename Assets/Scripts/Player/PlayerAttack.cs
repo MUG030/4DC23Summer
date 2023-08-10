@@ -43,7 +43,7 @@ public class PlayerAttack : MonoBehaviour
         s.transform.Translate(0,-0.025f,0);
         Frame -= 1;
 
-        if(Frame == 18)
+        if(Frame == 26)
         {
             Image.sprite = Sprite2;
         }

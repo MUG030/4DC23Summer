@@ -11,6 +11,7 @@ public class Thunder : MonoBehaviour
     private Animator Anim;
     public SpriteRenderer Image;
     public Sprite Sprite1, Sprite2;
+    public int ThunderCount;
 
     void Start()
     {
