@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e03fea1ad2f22b24bb0f4be9a689a249
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Player: {fileID: 903246815024369072, guid: 5a6dd79a5d205fc4d9146d25debd3d51, type: 3}
+  - WaitPose: {fileID: 21300000, guid: daa6bc0b6a77a884e9235acb880be747, type: 3}
+  - ShotPose: {fileID: 21300000, guid: e7611dd66bfde064b9cb63f35f75f64f, type: 3}
+  - bulletPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

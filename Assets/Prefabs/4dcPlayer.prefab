@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2437329900820844223}
   - component: {fileID: 2511690151860580815}
   - component: {fileID: 1081369322990457922}
+  - component: {fileID: 539806452517334898}
   m_Layer: 0
   m_Name: 4dcPlayer
   m_TagString: Untagged
@@ -191,3 +192,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundCheckDistance: 0.75
+--- !u!95 &539806452517334898
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4704815654715837625}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 78dfd5fef3dd4654da961c5162d8ef4c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
