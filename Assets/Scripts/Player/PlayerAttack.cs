@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public sbyte _direction;
     private byte Frame;
     private bool Attacking = false;
     private SpriteRenderer Image;

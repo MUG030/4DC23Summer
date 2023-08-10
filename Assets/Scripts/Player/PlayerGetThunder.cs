@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerGetThunder : MonoBehaviour
 {
     public bool Get = false;
-    public Sprite Sprite1, Sprite2;
     public byte Count = 0;
 
 
@@ -13,7 +12,9 @@ public class PlayerGetThunder : MonoBehaviour
     {
         if(Get)
         {
-
+            Count += 1;
+            Debug.Log(Count);
+            Get = false;
         }
     }
 }

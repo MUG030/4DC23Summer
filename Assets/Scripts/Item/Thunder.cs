@@ -5,21 +5,13 @@ using UnityEngine;
 public class Thunder : MonoBehaviour
 {
     private bool isPlayer = false;
-    private bool Get = false;
     private byte Pull = 0;
-
     private GameObject Player;
-
-    private Animator Anim;
-    public SpriteRenderer Image;
-    //public Sprite Sprite1, Sprite2;
-
     public int ThunderCount;
+
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
-        Image = Player.GetComponent<SpriteRenderer>();
-        Anim = Player.GetComponent<Animator>();
     }
 
     void Update()
@@ -28,8 +20,6 @@ public class Thunder : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                //Anim.enabled = false;
-                //Image.sprite = Sprite1;
                 Pull = 0;
             }
 
@@ -42,8 +32,7 @@ public class Thunder : MonoBehaviour
             if (Pull > 180)
             {
                 Debug.Log("pulled");
-                Get = true;
-                Pull = 0;
+                Player.GetComponent<PlayerGetThunder>().Get = true;
                 this.gameObject.SetActive(false);
             }
         }
