@@ -60,16 +60,6 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
                 break;
         }
     }
-    
-    //名前が「Player」のオブジェクトと接触したらダメージをうける
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == Enemy_Shoot.Player)
-        {
-            Status = EnemyStatus.Damaged;
-        }
-    }
-
     private void OnBecameInvisible()
     {
         Destroy(this);
@@ -77,8 +67,12 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
 
     public int AddDamage()
     {
+        Status = EnemyStatus.Damaged;
         Debug.Log("胞子に触れた");
-        return 1;
+        int damage = (health > 0) ? 1 : 0;
+        health--;
+        Status = EnemyStatus.Damaged;
+        return damage;
     }
 
     public void SetVelocity(Vector2 velocity)
