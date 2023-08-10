@@ -4,29 +4,34 @@ using UnityEngine;
 
 public class Enemy_Shoot : MonoBehaviour
 {
-    public static GameObject Player;
+    //三日目夜：よく見たら1枚のスクリプトに書く量じゃないwww
     [SerializeField]
     private GameObject player;
-    [Space(10)]
     private SpriteRenderer enemySprite;
-    [SerializeField]
+    [SerializeField,Space(10)]
     private Sprite WaitPose;
     [SerializeField]
     private Sprite ShotPose;
 
-    [SerializeField]
+    [SerializeField,Space(10)]
     private GameObject bulletPrefab;
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip shotSound;
+    private GameObject shotMuzzle;
     private GameObject bullet;
     private Transform playerTra;
     private Vector2 _posdiff;
     private float _base;
     private float _side;
     private float shotangle_rad;
-    [SerializeField]
+    [SerializeField, Space(5)]
     private float shotvelocity = 2.0f;
     [SerializeField]
     private float shotinterval = 4.0f;
-    private float shotposetime = 0.5f;
+    [SerializeField]
+    private float shotposetime = 1.1f;
+    private float shotdelay = 0.2f;
     private Vector2 shotpower;
 
     private enum EnemyStatus
@@ -35,7 +40,7 @@ public class Enemy_Shoot : MonoBehaviour
     };
     private EnemyStatus Status;
     private int health;
-    [SerializeField]
+    [SerializeField,Space(10)]
     private float fadetime = 1.2f;
 
     private Color _color;
@@ -46,7 +51,8 @@ public class Enemy_Shoot : MonoBehaviour
         health = 1;
         Status = EnemyStatus.Alive;
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
-        Player = player;
+        shotMuzzle = gameObject.transform.Find("ShotMuzzle").gameObject;
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -92,13 +98,11 @@ public class Enemy_Shoot : MonoBehaviour
     {
         //自機狙い開始
         StartCoroutine("ShotBullet");
-        Debug.Log("startct");
     }
     private void OnBecameInvisible()
     {
         //自機狙い停止
         StopCoroutine("ShotBullet");
-        Debug.Log("stopct");
 
     }
     //タグ名「PlayerWeapon」のオブジェクトと接触したらダメージをうける
@@ -115,28 +119,35 @@ public class Enemy_Shoot : MonoBehaviour
         while (true)
         {
             //Player位置取得
-            playerTra = Player.transform;
+            playerTra = player.transform;
             //角度決定
             _posdiff = playerTra.position - gameObject.transform.position;
             _base = _posdiff.x;
             _side = _posdiff.y;
             shotangle_rad = Mathf.Atan(_side / _base);
+
+            audioSource.PlayOneShot(shotSound);
+            enemySprite.sprite = ShotPose;
+            yield return new WaitForSeconds(shotdelay);
+
             //生成
             bullet = Instantiate(bulletPrefab, gameObject.transform);
+            bullet.transform.position = shotMuzzle.transform.position;
+
             //射速決定
             shotpower = new Vector2(
                 shotvelocity * Mathf.Cos(shotangle_rad),
                 shotvelocity * Mathf.Sin(shotangle_rad)
             );
             shotpower *= new Vector2(Mathf.Sign(_posdiff.x), Mathf.Sign(_posdiff.y));
-            //射出
-            bullet.GetComponent<Enemy_Bullet>().SetVelocity(shotpower);
 
-            enemySprite.sprite = ShotPose;
+            //射出(音付き)
+            bullet.GetComponent<Enemy_Bullet>().SetVelocity(shotpower);
             yield return new WaitForSeconds(shotposetime);
             enemySprite.sprite = WaitPose;
+
             //インターバル
-            yield return new WaitForSeconds(shotinterval-shotposetime);
+            yield return new WaitForSeconds(shotinterval-shotposetime-shotdelay);
         }
     }
     public void GetDamage(int damage)
@@ -145,5 +156,4 @@ public class Enemy_Shoot : MonoBehaviour
         health++;
         Status = EnemyStatus.Damaged;
     }
-
 }
