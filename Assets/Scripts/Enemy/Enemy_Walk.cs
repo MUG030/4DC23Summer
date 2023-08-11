@@ -107,6 +107,9 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     private IEnumerator Hit()
     {
         audioSource.PlayOneShot(dyingSound);
+        Debug.Log(dyingSound);
+        Debug.Log(audioSource.isPlaying);
+
         yield return new WaitForSeconds(3);
     }
 
