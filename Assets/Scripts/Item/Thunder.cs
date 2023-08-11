@@ -8,7 +8,7 @@ public class Thunder : MonoBehaviour
     private byte Pull = 0;
     private GameObject Player;
     public int ThunderCount;
-
+    public GameObject pulledThunderPrefab;
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -34,6 +34,7 @@ public class Thunder : MonoBehaviour
                 Debug.Log("pulled");
                 Player.GetComponent<PlayerGetThunder>().Get = true;
                 this.gameObject.SetActive(false);
+                Instantiate(pulledThunderPrefab, transform.position, Quaternion.identity);
             }
         }
     }
