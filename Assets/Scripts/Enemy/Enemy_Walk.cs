@@ -151,8 +151,9 @@ public class Enemy_Walk : MonoBehaviour, IDamageable
     #endregion
     public int AddDamage()
     {
-         Debug.Log("“G‚ÉG‚ê‚½");
-         return 1;
+        int damage = (health > 0) ? 1 : 0;
+        Debug.Log("“G‚ÉG‚ê‚½");
+        return damage;
     }
     public void GetDamage(int damage)
     {

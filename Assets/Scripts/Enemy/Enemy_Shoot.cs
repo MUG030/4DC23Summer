@@ -168,6 +168,13 @@ public class Enemy_Shoot : MonoBehaviour
             yield return new WaitForSeconds(shotinterval-shotposetime-shotdelay);
         }
     }
+    public int AddDamage()
+    {
+        int damage = (health > 0) ? 1 : 0;
+        Debug.Log("“G‚ÉG‚ê‚½");
+        return damage;
+    }
+
     public void GetDamage(int damage)
     {
         health -= damage;
