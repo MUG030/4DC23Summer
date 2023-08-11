@@ -7,7 +7,6 @@ public class PlayerGetThunder : MonoBehaviour
     public bool Get = false;
     public byte Count = 0;
 
-
     void Update()
     {
         if(Get)

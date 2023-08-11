@@ -39,7 +39,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Attack(GameObject s)
     {
-        s.transform.Translate(0,-0.02f,0);
+        s.transform.Translate(0,-0.04f,0);
         Frame -= 1;
 
         if(Frame == 26)

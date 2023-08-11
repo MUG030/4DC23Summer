@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
@@ -116,6 +117,12 @@ public class PlayerMove : MonoBehaviour
                 animator.SetBool("IsJumpWing", false);
                 animator.SetBool("IsFallWing", true);
             }
+        }
+
+        // óéÇøÇΩÇÁÉäÉçÅ[Éh
+        if(transform.position.y < -20f)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
