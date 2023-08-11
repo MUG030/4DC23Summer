@@ -8,6 +8,8 @@ public class TimeManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     private float currentTime = 0f;
 
+    private bool timerStop = false;
+
     private void Start()
     {
         // 初期表示
@@ -16,8 +18,11 @@ public class TimeManager : MonoBehaviour
 
     private void Update()
     {
-        // 1秒ごとに時間を更新
-        currentTime += Time.deltaTime;
+        if(timerStop == false)
+        {
+            // 1秒ごとに時間を更新
+            currentTime += Time.deltaTime;
+        }
         UpdateTimerText();
     }
 
@@ -28,4 +33,9 @@ public class TimeManager : MonoBehaviour
         int milliseconds = Mathf.FloorToInt((currentTime * 1000) % 1000);
 
         timerText.text = string.Format("{0:D2}:{1:D2}:{2:D3}", minutes, seconds, milliseconds);    }
+
+    public void StopTimer()
+    {
+        timerStop = true;
+    }
 }

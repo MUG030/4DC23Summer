@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class BossCore : MonoBehaviour
 {
     [SerializeField] private int health = 1;
+
     private SpriteRenderer sprite;
+    [SerializeField] private TimeManager timer;
 
     void Start()
     {
@@ -18,6 +20,7 @@ public class BossCore : MonoBehaviour
         health -= damage;
         if(health <= 0)
         {
+            timer.StopTimer();
             sprite.color = new Color(0.5f, 0.5f, 0.5f);
             Invoke("GameClear", 3f);
         }
