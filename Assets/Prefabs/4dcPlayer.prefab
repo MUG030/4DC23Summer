@@ -248,6 +248,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashObject: {fileID: 4053969140153245460}
   flashSpeed: 0.5
+  requireThunder: 3
+  playerGetThunder: {fileID: 4768800273654283937}
+  thunderGauge: {fileID: 0}
 --- !u!114 &4768800273654283937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Get: 0
   Count: 0
+  playerAnim: {fileID: 539806452517334898}
 --- !u!1 &8338618932725240578
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +477,10 @@ PrefabInstance:
     - target: {fileID: 6004929799051531701, guid: 0180c0889aec7b443abe3abbe419c8b5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8304034452762373664, guid: 0180c0889aec7b443abe3abbe419c8b5, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
