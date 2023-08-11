@@ -816,6 +816,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2388946254470081969, guid: 0df8871e53da65d48872859e6f786852, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4704815654715837625, guid: 0df8871e53da65d48872859e6f786852, type: 3}
       propertyPath: m_Name
       value: 4dcPlayer

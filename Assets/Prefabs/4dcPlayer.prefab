@@ -35,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5020268, y: -0.32722586, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3843440735188869687}
@@ -195,11 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c5b1d0c5c71a040b3f51066074d813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedForce: 5
-  _jumpForce: 5
+  _speedForce: 8
+  _jumpForce: 8
   _groundCheckDistance: 0.75
-  jumpSound: {fileID: 0}
-  walkSound: {fileID: 0}
 --- !u!95 &539806452517334898
 Animator:
   serializedVersion: 5
@@ -233,7 +231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2db06720bfcd79419133370cd72881b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _direction: 0
   Sprite1: {fileID: 21300000, guid: d87c307fee491c54facd2c97b7d70dd8, type: 3}
   Sprite2: {fileID: 21300000, guid: 9a447ba8b7f6c1441b38d6a24b14a394, type: 3}
 --- !u!114 &1148876347041882378
