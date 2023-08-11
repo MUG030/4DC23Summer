@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -11,6 +13,10 @@ public class PlayerMove : MonoBehaviour
     Animator animator;
     private Rigidbody2D rb;
     private bool isGrounded;
+    private bool isShiftPressed = false;
+    private bool isSprinting = false;
+    private bool isDamage = false;
+    private bool isAttack = false;
 
     [SerializeField] private float _speedForce = 5.0f;
     [SerializeField] private float _jumpForce = 5.0f;
@@ -21,12 +27,12 @@ public class PlayerMove : MonoBehaviour
 
     private float _horizontalInput;
 
-    private AudioSource audioSource;
+    /*private AudioSource audioSource;
     [SerializeField, Space(10)]
     private AudioClip jumpSound;
     [SerializeField]
     private AudioClip walkSound;
-    [SerializeField]
+    [SerializeField]*/
 
     // Start is called before the first frame update
     void Start()
@@ -40,18 +46,27 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _horizontalInput = Input.GetAxis("Horizontal");
-
-        if (_horizontalInput > 0.0f)
+        if (isDamage)
         {
-            transform.localScale = new Vector2(_startScale.x, _startScale.y);
+            float val = Mathf.Sin(Time.time * 50);
+            if (val > 0)
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            }
+
+            return;
         }
-        else if (_horizontalInput < 0.0f)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            transform.localScale = new Vector2(_startScale.x * -1, _startScale.y);
+            isAttack = true;
+            Invoke("AttackEnd", 26/60f);
         }
 
-        animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
+            animator.SetFloat("speed", Mathf.Abs(_horizontalInput));
         animator.SetBool("isGround", isGrounded);
         animator.SetBool("IsJump", true);
 
@@ -65,9 +80,49 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("IsFall", true);
         }
 
+        if (isGrounded)
+        {
+            animator.SetBool("IsJump", false);
+            animator.SetBool("IsFall", false);
+            animator.SetBool("IsJumpWing", false);
+            animator.SetBool("IsFallWing", false);
+        }
+        _horizontalInput = Input.GetAxis("Horizontal");
+
+        if (_horizontalInput > 0.0f)
+        {
+            transform.localScale = new Vector2(_startScale.x, _startScale.y);
+        }
+        else if (_horizontalInput < 0.0f)
+        {
+            transform.localScale = new Vector2(_startScale.x * -1, _startScale.y);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
+        }
+
+        isShiftPressed = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        if (isShiftPressed)
+        {
+            if (rb.velocity.y > 0.4f)
+            {
+                animator.SetBool("IsJumpWing", true);
+                animator.SetBool("IsJump", false);
+            }
+            else
+            {
+                animator.SetBool("IsFall", false);
+                animator.SetBool("IsJumpWing", false);
+                animator.SetBool("IsFallWing", true);
+            }
+        }
+
+        // óéÇøÇΩÇÁÉäÉçÅ[Éh
+        if(transform.position.y < -20f)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
@@ -102,13 +157,6 @@ public class PlayerMove : MonoBehaviour
     private void Jump()
     {
         rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-        StartCoroutine("JumpSound");
-    }
-
-    private IEnumerator JumpSound()
-    {
-        audioSource.PlayOneShot(jumpSound);
-        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -117,13 +165,35 @@ public class PlayerMove : MonoBehaviour
         var jumpTarget = col.GetComponent<IGain>();
         if (target != null)
         {
+            if (isDamage) return;
+            if (isAttack) return;
+
+            isDamage = true;
 
             int DamageNum = target.AddDamage();
             playerHP.SetLifeGauge2(DamageNum);
+
+            rb.velocity = new Vector2(0, 0);
+            Vector2 hitDirect = (col.transform.position - transform.position).normalized;
+            if (transform.localScale.x > 0)
+            {
+                hitDirect.x *= -1;
+            }
+
+            Invoke("DamageEnd", 0.5f);
         } else if (jumpTarget!= null)
         {
             springForce = jumpTarget.JumpForce();
             rb.AddForce(Vector2.up * springForce, ForceMode2D.Impulse);
         }
+    }
+    private void DamageEnd()
+    {
+        isDamage = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+    }
+    private void AttackEnd()
+    {
+        isAttack = false;
     }
 }

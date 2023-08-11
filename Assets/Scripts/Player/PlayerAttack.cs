@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public sbyte _direction;
     private byte Frame;
     private bool Attacking = false;
     private SpriteRenderer Image;
@@ -21,13 +20,13 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
 
-        if (Frame == 0 && Input.GetKeyDown(KeyCode.W))
+        if (Frame == 0 && Input.GetKeyDown(KeyCode.E))
         {
             Anim.enabled = false;
             
             Image.sprite = Sprite1;
             Sord.SetActive(true);
-            Sord.transform.localPosition = new Vector2(-1.2f,0.5f);  
+            Sord.transform.localPosition = new Vector2(-1.4f,1.2f);  
             Attacking = true;
             Frame = 60;
         }
@@ -40,7 +39,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Attack(GameObject s)
     {
-        s.transform.Translate(0,-0.025f,0);
+        s.transform.Translate(0,-0.04f,0);
         Frame -= 1;
 
         if(Frame == 26)
