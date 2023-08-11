@@ -6,8 +6,6 @@ public class Enemy_Shoot : MonoBehaviour
 {
     //三日目夜：よく見たら1枚のスクリプトに書く量じゃないwww
     private static GameObject player;
-    [SerializeField]
-    private GameObject Player;
     private SpriteRenderer enemySprite;
     [SerializeField,Space(10)]
     private Sprite WaitPose;
@@ -52,8 +50,8 @@ public class Enemy_Shoot : MonoBehaviour
     {
         health = 1;
         Status = EnemyStatus.Alive;
-        if (player == null)
-            player = Player;
+        if(player == null)
+            player = GameObject.FindWithTag("Player");
         enemySprite = gameObject.GetComponent<SpriteRenderer>();
         shotMuzzle = gameObject.transform.Find("ShotMuzzle").gameObject;
         audioSource = gameObject.GetComponent<AudioSource>();

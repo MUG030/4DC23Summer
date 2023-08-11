@@ -8,6 +8,8 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
     [SerializeField]
     private AudioClip hitSound;
     private float soundLength = 2.0f;
+    [SerializeField, Space(10)]
+    private float vanishtime = 5.0f;
     private enum EnemyStatus
     {
         none, Alive, Damaged, Dying, Dead
@@ -23,7 +25,14 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
         health = 1;
         Status = EnemyStatus.Alive;
         audioSource = gameObject.GetComponent<AudioSource>();
+        //("Die");
    }
+
+    private IEnumerator Die()
+    {
+        yield return new WaitForSeconds(vanishtime);
+        Destroy(this);
+    }
 
     // Update is called once per frame
     void Update()
@@ -69,7 +78,7 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
     }
     private void OnBecameInvisible()
     {
-        Destroy(this);
+        Destroy(gameObject);
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
