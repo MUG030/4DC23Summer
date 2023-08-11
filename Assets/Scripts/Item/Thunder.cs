@@ -37,7 +37,7 @@ public class Thunder : MonoBehaviour
                 playerGetThunder.EndPulling();
             }
 
-            if (Pull > 180)
+            if (Pull > 90)
             {
                 Debug.Log("pulled");
                 Player.GetComponent<PlayerGetThunder>().Get = true;
