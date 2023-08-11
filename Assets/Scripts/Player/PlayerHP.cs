@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHP : MonoBehaviour
 {
-    private int _hp = 3;
+    [SerializeField] private int _hp = 3;
     [SerializeField] GameObject _panel;
 
     [SerializeField] private GameObject lifeObj;
@@ -12,6 +13,14 @@ public class PlayerHP : MonoBehaviour
     void Start()
     {
         SetLifeGauge(_hp);
+    }
+
+    private void Update()
+    {
+        if (_hp == 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public void SetLifeGauge(int life)
