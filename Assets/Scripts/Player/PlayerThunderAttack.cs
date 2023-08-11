@@ -8,6 +8,10 @@ public class PlayerThunderAttack : MonoBehaviour
     [SerializeField] private CanvasGroup flashObject;
     [SerializeField] private float flashSpeed = 10f;
 
+    [SerializeField] private int requireThunder = 3;
+    [SerializeField] private PlayerGetThunder playerGetThunder;
+    [SerializeField] private PlayerThunderGaugeUI thunderGauge;
+
     float flashAlpha = 0f;
 
     void Update()
@@ -19,11 +23,17 @@ public class PlayerThunderAttack : MonoBehaviour
 
         flashObject.alpha = flashAlpha;
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if(playerGetThunder.Count >= requireThunder)
         {
-            Flash();
-            ThunderAttack();
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Flash();
+                ThunderAttack();
+                playerGetThunder.Count = 0;
+            }
         }
+
+        UpdateUI();
     }
 
     void ThunderAttack()
@@ -57,5 +67,13 @@ public class PlayerThunderAttack : MonoBehaviour
     void Flash()
     {
         flashAlpha = 1f;
+    }
+
+    void UpdateUI()
+    {
+        if (thunderGauge)
+        {
+            thunderGauge.SetValue(playerGetThunder.Count, requireThunder);
+        }
     }
 }
