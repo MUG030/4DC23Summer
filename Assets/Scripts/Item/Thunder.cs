@@ -7,11 +7,14 @@ public class Thunder : MonoBehaviour
     private bool isPlayer = false;
     private byte Pull = 0;
     private GameObject Player;
+    private PlayerGetThunder playerGetThunder;
+
     public int ThunderCount;
     public GameObject pulledThunderPrefab;
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
+        playerGetThunder = Player.GetComponent<PlayerGetThunder>();
     }
 
     void Update()
@@ -27,6 +30,11 @@ public class Thunder : MonoBehaviour
             {
                 Debug.Log("pulling");
                 Pull += 1;
+                playerGetThunder.StartPulling();
+            }
+            else
+            {
+                playerGetThunder.EndPulling();
             }
 
             if (Pull > 180)
@@ -54,6 +62,7 @@ public class Thunder : MonoBehaviour
         {
             Debug.Log("out");
             isPlayer = false;
+            playerGetThunder.EndPulling();
         }
     }
 }

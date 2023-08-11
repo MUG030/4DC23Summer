@@ -1007,6 +1007,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 4dcPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 4768800273654283937, guid: 0df8871e53da65d48872859e6f786852, type: 3}
+      propertyPath: playerAnim
+      value: 
+      objectReference: {fileID: 710284850}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1026,6 +1030,11 @@ MonoBehaviour:
 --- !u!4 &710284847 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2172364984884161843, guid: 0df8871e53da65d48872859e6f786852, type: 3}
+  m_PrefabInstance: {fileID: 710284837}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &710284850 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 539806452517334898, guid: 0df8871e53da65d48872859e6f786852, type: 3}
   m_PrefabInstance: {fileID: 710284837}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &724688714
