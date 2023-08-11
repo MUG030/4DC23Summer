@@ -10,6 +10,7 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
     private float soundLength = 2.0f;
     [SerializeField, Space(10)]
     private float vanishtime = 5.0f;
+    private bool isHit = false;
     private enum EnemyStatus
     {
         none, Alive, Damaged, Dying, Dead
@@ -71,7 +72,8 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
                 break;
             */
             case EnemyStatus.Dead:
-                StartCoroutine("Hit");
+                if(isHit)
+                    StartCoroutine("Hit");
                 Status = EnemyStatus.none;
                 break;
         }
@@ -100,6 +102,7 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
         Debug.Log("–EŽq‚ÉG‚ê‚½");
         int damage = (health > 0) ? 1 : 0;
         health--;
+        isHit = true;
         Status = EnemyStatus.Damaged;
         return damage;
     }
@@ -112,6 +115,7 @@ public class Enemy_Bullet : MonoBehaviour, IDamageable
         health -= damage;
         health++;
         Status = EnemyStatus.Damaged;
+        isHit = false;
     }
 
     private IEnumerator Hit()
