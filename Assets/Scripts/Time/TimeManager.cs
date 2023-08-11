@@ -14,6 +14,7 @@ public class TimeManager : MonoBehaviour
     {
         // ‰Šú•\¦
         UpdateTimerText();
+        TimeScore.ResultTime = 0f;
     }
 
     private void Update()
@@ -37,5 +38,6 @@ public class TimeManager : MonoBehaviour
     public void StopTimer()
     {
         timerStop = true;
+        TimeScore.ResultTime = currentTime;
     }
 }
